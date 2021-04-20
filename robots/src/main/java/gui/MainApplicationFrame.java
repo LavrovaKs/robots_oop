@@ -7,6 +7,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import log.Logger;
 
@@ -38,6 +40,9 @@ public class MainApplicationFrame extends JFrame {
 
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        closing();
+    }
+    private void closing(){
         this.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -53,6 +58,7 @@ public class MainApplicationFrame extends JFrame {
                                 JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
                 if (n == 0){
                     event.getWindow().setVisible(false);
+                    System.exit(0);
                 }
             }
 
@@ -130,6 +136,7 @@ public class MainApplicationFrame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(createLookAndFeelMenu());
         menuBar.add(createTestMenu());
+        menuBar.add(createCloseMenu());
         return menuBar;
     }
 
@@ -164,6 +171,31 @@ public class MainApplicationFrame extends JFrame {
         JMenuItem addLogMessageItem = new JMenuItem(name, KeyEvent.VK_S);
         addLogMessageItem.addActionListener((event) -> Logger.debug(message));
         testMenu.add(addLogMessageItem);
+    }
+
+    private JMenu createCloseMenu(){
+        JMenu closeMenu = new JMenu("Выйти");
+        closeMenu.setMnemonic(KeyEvent.VK_K);
+        //closeMenu.setActionCommand("quit");
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        closing();
+        closeMenu.addMenuListener(new MenuListener() {
+            @Override
+            public void menuSelected(MenuEvent e) {
+
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+
+            }
+        });
+        return closeMenu;
     }
 
     private void setLookAndFeel(String className) {
