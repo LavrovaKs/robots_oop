@@ -98,7 +98,7 @@ public class GameVisualizer extends JPanel {
     private static double applyLimits(double value, double min, double max) {
         if (value < min)
             return min;
-        if (value > max)
+        else if (value > max)
             return max;
         return value;
     }
