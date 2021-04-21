@@ -1,14 +1,12 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
+import javax.swing.event.*;
 
 import log.Logger;
 
@@ -40,9 +38,7 @@ public class MainApplicationFrame extends JFrame {
 
         setJMenuBar(generateMenuBar());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        closing();
-    }
-    private void closing(){
+
         this.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -56,7 +52,7 @@ public class MainApplicationFrame extends JFrame {
                         .showOptionDialog(event.getWindow(), "Закрыть окно?", "Подтверждение",
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-                if (n == 0){
+                if (n == 0) {
                     event.getWindow().setVisible(false);
                     System.exit(0);
                 }
@@ -104,33 +100,7 @@ public class MainApplicationFrame extends JFrame {
         frame.setVisible(true);
     }
 
-    /*protected JMenuBar createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
 
-        //Set up the lone menu.
-        JMenu menu = new JMenu("Document");
-        menu.setMnemonic(KeyEvent.VK_D);
-        menuBar.add(menu);
-
-        //Set up the first menu item.
-        JMenuItem menuItem = new JMenuItem("New");
-        menuItem.setMnemonic(KeyEvent.VK_N);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_N, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("new");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
-
-        //Set up the second menu item.
-        menuItem = new JMenuItem("Quit");
-        menuItem.setMnemonic(KeyEvent.VK_Q);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
-        menuItem.setActionCommand("quit");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
-        return menuBar;
-    }*/
 
     private JMenuBar generateMenuBar() {
         JMenuBar menuBar = new JMenuBar();
@@ -176,12 +146,19 @@ public class MainApplicationFrame extends JFrame {
     private JMenu createCloseMenu(){
         JMenu closeMenu = new JMenu("Выйти");
         closeMenu.setMnemonic(KeyEvent.VK_K);
-        //closeMenu.setActionCommand("quit");
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        closing();
         closeMenu.addMenuListener(new MenuListener() {
             @Override
             public void menuSelected(MenuEvent e) {
+                Object[] options = {"Да", "Нет"};
+                var exitMenu = new ExitMenu("выход");
+                int n = JOptionPane
+                        .showOptionDialog(exitMenu, "Закрыть окно?", "Подтверждение",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                if (n == 0){
+                    exitMenu.setVisible(false);
+                    System.exit(0);
+                }
 
             }
 
@@ -207,4 +184,31 @@ public class MainApplicationFrame extends JFrame {
             // just ignore
         }
     }
+    /*protected JMenuBar createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+
+        //Set up the lone menu.
+        JMenu menu = new JMenu("Document");
+        menu.setMnemonic(KeyEvent.VK_D);
+        menuBar.add(menu);
+
+        //Set up the first menu item.
+        JMenuItem menuItem = new JMenuItem("New");
+        menuItem.setMnemonic(KeyEvent.VK_N);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_N, ActionEvent.ALT_MASK));
+        menuItem.setActionCommand("new");
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
+
+        //Set up the second menu item.
+        menuItem = new JMenuItem("Quit");
+        menuItem.setMnemonic(KeyEvent.VK_Q);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_Q, ActionEvent.ALT_MASK));
+        menuItem.setActionCommand("quit");
+        menuItem.addActionListener(this);
+        menu.add(menuItem);
+        return menuBar;
+    }*/
 }
