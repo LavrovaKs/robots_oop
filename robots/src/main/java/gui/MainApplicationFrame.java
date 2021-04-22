@@ -17,6 +17,8 @@ import log.Logger;
  */
 public class MainApplicationFrame extends JFrame {
     private final JDesktopPane desktopPane = new JDesktopPane();
+    private final String TEST_MENU = "Сообщение в лог";
+    private final String TEST_LOG = "Новая строка";
 
     public MainApplicationFrame() {
         //Make the big window be indented 50 pixels from each edge
@@ -100,8 +102,6 @@ public class MainApplicationFrame extends JFrame {
         frame.setVisible(true);
     }
 
-
-
     private JMenuBar generateMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(createLookAndFeelMenu());
@@ -133,19 +133,20 @@ public class MainApplicationFrame extends JFrame {
         JMenu testMenu = new JMenu("Тесты");
         testMenu.setMnemonic(KeyEvent.VK_T);
         testMenu.getAccessibleContext().setAccessibleDescription("Тестовые команды");
-        setTestField(testMenu, "Сообщение в лог", "Новая строка");
+        setTestField(testMenu);
         return testMenu;
     }
 
-    private void setTestField(JMenu testMenu, String name, String message) {
-        JMenuItem addLogMessageItem = new JMenuItem(name, KeyEvent.VK_S);
-        addLogMessageItem.addActionListener((event) -> Logger.debug(message));
+    private void setTestField(JMenu testMenu) {
+        JMenuItem addLogMessageItem = new JMenuItem(TEST_MENU, KeyEvent.VK_S);
+        addLogMessageItem.addActionListener((event) -> Logger.debug(TEST_LOG));
         testMenu.add(addLogMessageItem);
     }
 
     private JMenu createCloseMenu(){
         JMenu closeMenu = new JMenu("Выйти");
         closeMenu.setMnemonic(KeyEvent.VK_K);
+
         closeMenu.addMenuListener(new MenuListener() {
             @Override
             public void menuSelected(MenuEvent e) {
@@ -159,7 +160,6 @@ public class MainApplicationFrame extends JFrame {
                     exitMenu.setVisible(false);
                     System.exit(0);
                 }
-
             }
 
             @Override
