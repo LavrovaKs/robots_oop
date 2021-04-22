@@ -18,26 +18,23 @@ public class LogWindowSource {
 
     private final LinkedList<LogEntry> m_messages;
     private final ArrayList<LogChangeListener> m_listeners;
-    private volatile LogChangeListener[] m_activeListeners;
 
     public LogWindowSource(int iQueueLength)
     {
         m_iQueueLength = iQueueLength;
-        m_messages = new LinkedList<>();
-        m_listeners = new ArrayList<>();
+        m_messages = new LinkedList<LogEntry>();
+        m_listeners = new ArrayList<LogChangeListener>();
     }
 
     public void registerListener(LogChangeListener listener) {
         synchronized (m_listeners) {
             m_listeners.add(listener);
-            m_activeListeners = null;
         }
     }
 
     public void unregisterListener(LogChangeListener listener) {
         synchronized (m_listeners) {
             m_listeners.remove(listener);
-            m_activeListeners = null;
         }
     }
 
